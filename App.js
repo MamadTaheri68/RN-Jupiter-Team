@@ -9,11 +9,13 @@ import {
   View,
 } from 'react-native';
 
-import {Colors} from 'react-native/Libraries/NewAppScreen';
+import Product from './src/components/Products';
+
+import { Colors } from 'react-native/Libraries/NewAppScreen';
 
 const tempProducts = new Array(40).fill(0);
 
-const Section = ({children, title}) => {
+const Section = ({ children, title }) => {
   const isDarkMode = useColorScheme() === 'dark';
   return (
     <View style={styles.sectionContainer}>
@@ -47,8 +49,13 @@ const App = () => {
   };
 
   return (
+    // <View style={{ flex: 1 }}>
+    //   <Product />
+    // </View>
+
     <SafeAreaView style={backgroundStyle}>
       <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
+     
       <ScrollView
         contentInsetAdjustmentBehavior="automatic"
         style={backgroundStyle}>
@@ -58,8 +65,8 @@ const App = () => {
           }}>
           {tempProducts.map((q, i) => (
             <View style={styles.card}>
-              <Section title={`Product #${i+1}`}>
-                Lorem ipsum {Math.floor(Math.random()*100000)}
+              <Section title={`Product #${i + 1}`}>
+                Lorem ipsum {Math.floor(Math.random() * 100000)}
               </Section>
             </View>
           ))}
@@ -93,7 +100,7 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderRadius: 8,
     margin: 5,
-    
+
   }
 });
 
