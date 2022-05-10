@@ -60,9 +60,6 @@ const styles = StyleSheet.create({
   SearchBoxContainer: {
     flexDirection: 'row',
     padding: 8,
-    borderColor: 'red',
-    borderWidth: 2,
-    borderStyle: 'solid',
   },
   SearchBoxLeft: {
     flex: 1,
