@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   SafeAreaView,
   ScrollView,
@@ -9,18 +9,35 @@ import {
   View,
 } from 'react-native';
 
+import SearchBox from './src/components/SearchBox';
 import Product from './src/components/Product';
 import ProductList from './src/components/ProductList';
 
 const App = () => {
 
+  const [query, setQuery] = useState("");
+
+  const searchHandler = (query) => {
+    setQuery(query);
+  }
 
   return (
     <View style={{ flex: 1 }}>
-      <Product />
+      <SearchBox onSearch={searchHandler} />
+      {/* <Product /> */}
       {/* <ProductList/> */}
-    </View>
 
+      {
+        query === "" ? (
+          <Text>welcome</Text>
+        )
+        :
+        (
+          <Text>{query}</Text>
+        )
+      }
+
+    </View>
     
   );
 };
