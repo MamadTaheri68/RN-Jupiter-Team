@@ -9,7 +9,7 @@ import SkeletonPlaceholder from "react-native-skeleton-placeholder";
 
 const { width, height } = Dimensions.get('screen');
 
-const Product = ({ valueProduct, isLoading }) => {
+const Product = ({ valueProduct, isLoading=true }) => {
 
   const { title, image, brand, price, review } = valueProduct;
   const { main, deal } = price;
@@ -27,7 +27,7 @@ const Product = ({ valueProduct, isLoading }) => {
   return (
     <View style={{ flex: 1, backgroundColor: '#fff' }}>
 
-      {isLoading.isLoading === true ?
+      {isLoading === true ?
         (<View style={styles.cardProduct}>
           <SkeletonPlaceholder highlightColor='grey' speed={2900}>
             < View style={styles.skeletonRowTop} />
@@ -100,8 +100,10 @@ const Product = ({ valueProduct, isLoading }) => {
               </View>
 
               <View style={styles.columnRight}>
-                {/* <Image source={}/> */}
-                <Text>img</Text>
+                <Image source={{ uri: image }}
+                 style={{ width: width/4, height:height/9,resizeMode:'contain' }}
+                />
+                {/* <Text>img</Text> */}
               </View>
 
             </View>

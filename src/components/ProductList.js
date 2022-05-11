@@ -4,9 +4,9 @@ import { StyleSheet, Text, FlatList, View, Dimensions, ActivityIndicator, Alert 
 import Product from './Product';
 import { styles } from '../assets/styles/productStyle';
 const { width, height } = Dimensions.get('screen');
+{/* <ProductList isLoading={isLoading} valueProducts={products} /> */ }
 
-
-const ProductList = ({ valueProducts, isLoading }) => {
+const ProductList = ({ valueProducts, isLoading=true }) => {
     console.log('valueProducts', valueProducts);
     console.log('isLoading', isLoading);
     // const [loading, setLoading] = useState(false);
@@ -53,7 +53,7 @@ const ProductList = ({ valueProducts, isLoading }) => {
                 alignItems: 'center',
                 flexDirection: 'row'
             }}>
-                {isLoading.isLoading ? (
+                {isLoading ? (
                     <ActivityIndicator
                         color="grey"
                         style={{ margin: 15 }} />
@@ -92,7 +92,11 @@ const ProductList = ({ valueProducts, isLoading }) => {
                 data={valueProducts}
                 keyExtractor={(product) => product.id}
                 ItemSeparatorComponent={ItemSeparatorView}
-                renderItem={({ item }) => <Product valueProduct={item} isLoading={isLoading} />}
+                renderItem={({ item }) => (
+                    // <Text>1</Text>
+               <Product valueProduct={item} isLoading={isLoading} />
+                )
+            }
                 ListFooterComponent={renderFooter}
                 //  onEndReached={({item})=>getData(item)}
                 onEndReachedThreshold={0.5}
