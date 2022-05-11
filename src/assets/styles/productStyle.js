@@ -1,8 +1,8 @@
-import {StyleSheet,  Dimensions} from 'react-native';
+import { StyleSheet, Dimensions } from 'react-native';
 
 const { width, height } = Dimensions.get('screen');
 
-  export const styles = StyleSheet.create({
+export const styles = StyleSheet.create({
     cardProduct: {
         paddingVertical: '3%',
         paddingHorizontal: '5%',
@@ -31,6 +31,11 @@ const { width, height } = Dimensions.get('screen');
         width: '40%',
         alignItems: 'center',
         justifyContent: 'center'
+    },
+    img: {
+        width: width / 4,
+        height: height / 9,
+        resizeMode: 'contain'
     },
     viewTitleDescription: {
         alignItem: "center",
@@ -63,4 +68,44 @@ const { width, height } = Dimensions.get('screen');
         fontSize: 24,
         fontWeight: 'bold'
     },
+    separator: {
+        marginRight: '5%',
+        borderTopWidth: 1,
+        borderTopColor: '#a3a3a3',
+    },
+    //=====================================skeleton styles =============================
+    skeletonRowTop: {
+        marginVertical: '1.5%',
+        width: width / 4,
+        height: height / 50,
+        borderRadius: height / 20
+    },
+    skeletonRowBottom: {
+        flexDirection: 'row'
+    },
+    skeletonTitle: {
+        marginLeft: '3%',
+        marginTop: '3%',
+        marginBottom: '1.5%',
+        width: width / 2.5,
+        height: height / 45,
+        borderRadius: height / 20
+    },
+    skeletonDescription: {
+        marginLeft: '3%',
+        marginBottom: '6%',
+        width: width / 2.5,
+        height: height / 45,
+        borderRadius: height / 20
+    },
+    skeletonPrice: {
+        width: width / 6,
+        height: height / 45,
+        borderRadius: height / 20
+    },
+    skeletonImg: {
+        width: width / 4,
+        height: height / 8,
+        borderRadius: height / 30
+    }
 })

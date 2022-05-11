@@ -1,107 +1,60 @@
-import React from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
+import React, {useState} from 'react';
+import {StyleSheet, Text, View} from 'react-native';
 
-import Product from './src/components/Products';
+import SearchBox from './src/components/SearchBox';
+import ProductList from './src/components/ProductList';
+import SearchProductsByTitleService from './src/services/SearchProductsByTitleService';
+import Welcome from "./src/components/Welcome";
 
-import { Colors } from 'react-native/Libraries/NewAppScreen';
+const App = () => {
+  const [query, setQuery] = useState('');
+  const [products, setProducts] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isListEnd, setIsListEnd] = useState(false);
 
-const tempProducts = new Array(40).fill(0);
+  const searchHandler = query => {
+    setQuery(query);
+     setProducts([{ id: 1, isLoading: true }, { id: 2, isLoading: true }, { id: 3, isLoading: true },{ id: 4, isLoading: true },{ id: 5, isLoading: true }]);
+    if (query !== '') {
+      getProducts(query);
+    }
+  };
 
-const Section = ({ children, title }) => {
-  const isDarkMode = useColorScheme() === 'dark';
+  const getProducts = queryString => {
+    setIsLoading(true);
+    console.log('getProducts for :' + queryString);
+    const serviceResult = SearchProductsByTitleService(queryString);
+    serviceResult.then(data => {
+      setIsLoading(false);
+      setProducts(data);
+      setIsListEnd(true);
+    });
+  };
+
   return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
+    <View style={{flex: 1}}>
+      <SearchBox onSearch={searchHandler} />
+      {query === '' && !isLoading && <Welcome />}
+      {query === '' && isLoading && <Text>Loading...</Text>}
+      {query !== '' && !isLoading && products.length === 0 && (
+        <View>
+          <Text style={styles.counter}>Nothing Found. Please search again</Text>
+        </View>
+      )}
+      {query !== '' && (
+        <View style={{flex: 1}}>
+          <ProductList valueProducts={products} isListEnd={isListEnd} />
+        </View>
+      )}
     </View>
   );
 };
 
-const App = () => {
-  const isDarkMode = useColorScheme() === 'dark';
-
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
-
-  return (
-    // <View style={{ flex: 1 }}>
-    //   <Product />
-    // </View>
-
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-     
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          {tempProducts.map((q, i) => (
-            <View style={styles.card}>
-              <Section title={`Product #${i + 1}`}>
-                Lorem ipsum {Math.floor(Math.random() * 100000)}
-              </Section>
-            </View>
-          ))}
-        </View>
-      </ScrollView>
-    </SafeAreaView>
-  );
-};
-
 const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 5,
-    paddingHorizontal: 24,
+  counter: {
+    color: '#007bff',
+    padding: 8,
   },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-  card: {
-    padding: 0,
-    borderColor: '#E5E5E5',
-    borderStyle: "solid",
-    borderWidth: 2,
-    borderRadius: 8,
-    margin: 5,
-
-  }
 });
 
 export default App;
