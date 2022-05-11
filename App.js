@@ -4,6 +4,7 @@ import {StyleSheet, Text, View} from 'react-native';
 import SearchBox from './src/components/SearchBox';
 import ProductList from './src/components/ProductList';
 import SearchProductsByTitleService from './src/services/SearchProductsByTitleService';
+import Welcome from "./src/components/Welcome";
 
 const App = () => {
   const [query, setQuery] = useState('');
@@ -33,7 +34,7 @@ const App = () => {
   return (
     <View style={{flex: 1}}>
       <SearchBox onSearch={searchHandler} />
-      {query === '' && !isLoading && <Text style={styles.counter}>welcome</Text>}
+      {query === '' && !isLoading && <Welcome />}
       {query === '' && isLoading && <Text>Loading...</Text>}
       {query !== '' && !isLoading && products.length === 0 && (
         <View>
