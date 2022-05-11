@@ -1,16 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
+import React, {useState} from 'react';
+import {StyleSheet, Text, View} from 'react-native';
 
 import SearchBox from './src/components/SearchBox';
-import Product from './src/components/Product';
 import ProductList from './src/components/ProductList';
 import SearchProductsByTitleService from './src/services/SearchProductsByTitleService';
 
@@ -40,21 +31,21 @@ const App = () => {
   };
 
   return (
-    <View style={{ flex: 1 }}>
+    <View style={{flex: 1}}>
       <SearchBox onSearch={searchHandler} />
-      {query === '' && !isLoading && <Text>welcome</Text>}
+      {query === '' && !isLoading && <Text style={styles.counter}>welcome</Text>}
       {query === '' && isLoading && <Text>Loading...</Text>}
-
-      {query !== '' &&  (
-        <View style={{ flex: 1 }}>
+      {query !== '' && !isLoading && products.length === 0 && (
+        <View>
+          <Text style={styles.counter}>Nothing Found. Please search again</Text>
+        </View>
+      )}
+      {query !== '' && (
+        <View style={{flex: 1}}>
           <ProductList valueProducts={products} isListEnd={isListEnd} />
         </View>
       )}
-
-
-
     </View>
-
   );
 };
 
