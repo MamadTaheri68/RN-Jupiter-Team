@@ -32,6 +32,11 @@ export const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center'
     },
+    img: {
+        width: width / 4,
+        height: height / 9,
+        resizeMode: 'contain'
+    },
     viewTitleDescription: {
         alignItem: "center",
         marginBottom: '10%'

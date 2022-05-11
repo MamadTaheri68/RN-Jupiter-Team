@@ -9,15 +9,13 @@ import SkeletonPlaceholder from "react-native-skeleton-placeholder";
 
 const { width, height } = Dimensions.get('screen');
 
-const Product = ({ valueProduct, isLoading=true }) => {
+const Product = ({ valueProduct}) => {
 
-  const { title, image, brand, price, review } = valueProduct;
-  const { main, deal } = price;
-  const { people, stars } = review;
+  
+    // const { title, image, brand, price, review } = valueProduct;
+    // const { main, deal } = price;
+    // const { people, stars } = review;
 
-  // const [loadding, setLoading] = useState(false);
-  // let Description = 'Leather Key Ring - Wisteria ghdgfdgfd fbggfdgf fggfd dffhd ';
-  // let Deal = 25.53;
 
 
   const ratingCompleted = (rating) => {
@@ -27,7 +25,7 @@ const Product = ({ valueProduct, isLoading=true }) => {
   return (
     <View style={{ flex: 1, backgroundColor: '#fff' }}>
 
-      {isLoading === true ?
+      {valueProduct.isLoading ?
         (<View style={styles.cardProduct}>
           <SkeletonPlaceholder highlightColor='grey' speed={2900}>
             < View style={styles.skeletonRowTop} />
@@ -44,24 +42,12 @@ const Product = ({ valueProduct, isLoading=true }) => {
           </SkeletonPlaceholder>
         </View>
         ) : (
+
           <View style={styles.cardProduct}>
             <View style={styles.rowTop}>
-
-              {/* <AirbnbRating
-                count={5}
-                //  reviews={["Bad", "OK", "Good", "Very Good", "Wow"]}
-                defaultRating={3}
-                size={15}
-                selectedColor='#f1c40f'
-                unSelectedColor='#eee8aa'
-                // reviewSize={25}
-                // reviewColor='red'
-                showRating={false}
-
-              /> */}
               <Rating
                 type='custom'
-                startingValue={stars}
+                startingValue={valueProduct.review.stars}
                 ratingCount={5}
                 ratingColor='#f1c40f'
                 ratingBackgroundColor='#fff'
@@ -72,38 +58,37 @@ const Product = ({ valueProduct, isLoading=true }) => {
                 jumpValue={0.5}
                 onSwipeRating={(value) => ratingCompleted(value)}
               />
-              <Text style={styles.txtScores}>{people}</Text>
+              <Text style={styles.txtScores}>{valueProduct.review.people}</Text>
             </View>
             <View style={styles.rowBottom}>
               <View style={styles.columnLeft}>
 
                 <View style={styles.viewTitleDescription}>
 
-                  <Text style={styles.txtTitle}>{title}</Text>
-                  {brand && <Text style={styles.txtDescription}>
-                    {brand.length <= 27 ? brand : `${brand.substring(0, 27)}...`}
+                  <Text style={styles.txtTitle}>{valueProduct.title}</Text>
+                  {valueProduct.brand && <Text style={styles.txtDescription}>
+                    {valueProduct.brand.length <= 27 ? valueProduct.brand : `${valueProduct.brand.substring(0, 27)}...`}
                   </Text>}
 
                 </View>
 
                 <View style={styles.viewPriceDeal}>
-                  {deal && (<>
-                    <Text style={styles.txtPriceDeal}>${deal} </Text>
+                  {valueProduct.price.deal && (<>
+                    <Text style={styles.txtPriceDeal}>${valueProduct.price.deal} </Text>
                     <Text style={styles.txtDeal}>تخفیف</Text>
                   </>
 
                   )}
                 </View>
 
-                <Text style={styles.txtPriceMain}>${main}</Text>
+                <Text style={styles.txtPriceMain}>${valueProduct.price.main}</Text>
 
               </View>
 
               <View style={styles.columnRight}>
-                <Image source={{ uri: image }}
-                 style={{ width: width/4, height:height/9,resizeMode:'contain' }}
+                <Image source={{ uri: valueProduct.image }}
+                  style={styles.img}
                 />
-                {/* <Text>img</Text> */}
               </View>
 
             </View>
