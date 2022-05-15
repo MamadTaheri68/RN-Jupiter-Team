@@ -1,10 +1,11 @@
 import React, {useState} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
-
+import { Provider } from 'react-redux';
 import SearchBox from './src/components/SearchBox';
 import ProductList from './src/components/ProductList';
 import SearchProductsByTitleService from './src/services/SearchProductsByTitleService';
 import Welcome from "./src/components/Welcome";
+import { store } from './src/redux/store';
 
 const App = () => {
   const [query, setQuery] = useState('');
@@ -33,6 +34,9 @@ const App = () => {
 
   return (
     <View style={{flex: 1}}>
+       <Provider store={store}>
+
+      
       <SearchBox onSearch={searchHandler} />
       {query === '' && !isLoading && <Welcome />}
       {query === '' && isLoading && <Text>Loading...</Text>}
@@ -46,6 +50,7 @@ const App = () => {
           <ProductList valueProducts={products} isListEnd={isListEnd} />
         </View>
       )}
+       </Provider>
     </View>
   );
 };
