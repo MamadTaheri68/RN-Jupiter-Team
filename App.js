@@ -35,7 +35,7 @@ const App = () => {
   return (
     <View style={{flex: 1}}>
        <Provider store={store}>
-
+       <ProductList/>
       
       <SearchBox onSearch={searchHandler} />
       {query === '' && !isLoading && <Welcome />}
@@ -47,7 +47,8 @@ const App = () => {
       )}
       {query !== '' && (
         <View style={{flex: 1}}>
-          <ProductList valueProducts={products} isListEnd={isListEnd} />
+          {/* <ProductList valueProducts={products} isListEnd={isListEnd} /> */}
+         
         </View>
       )}
        </Provider>
