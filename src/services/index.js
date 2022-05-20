@@ -1,13 +1,3 @@
-import axios from 'axios';
 
-const request = axios.create({
-  baseURL: 'https://api.malltina.net/',
-  timeout: 5000,
-  headers: {
-    'Content-Type': 'application/json',
-  },
-});
+export  const  BaseUrl = 'https://api.malltina.net';
 
-
-
-export default request;

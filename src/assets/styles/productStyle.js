@@ -68,11 +68,7 @@ export const styles = StyleSheet.create({
         fontSize: 24,
         fontWeight: 'bold'
     },
-    separator: {
-        marginRight: '5%',
-        borderTopWidth: 1,
-        borderTopColor: '#a3a3a3',
-    },
+
     //=====================================skeleton styles =============================
     skeletonRowTop: {
         marginVertical: '1.5%',

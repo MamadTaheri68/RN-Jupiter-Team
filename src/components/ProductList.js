@@ -1,58 +1,44 @@
 
-import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, FlatList, View, Dimensions, ActivityIndicator, TouchableOpacity } from 'react-native';
+import React, { useEffect } from 'react';
+import { Text, FlatList, View, ActivityIndicator, TouchableOpacity } from 'react-native';
 import Product from './Product';
-import { styles } from '../assets/styles/productStyle';
 import { useDispatch, useSelector } from 'react-redux';
-import { productAction } from './../redux/action/productAction';
-const { width, height } = Dimensions.get('screen');
+import { productMoreActions, productsAction } from './../redux/action/productAction';
+import { styles } from '../assets/styles/ProductsLisrStyle';
 
-
-const ProductList = (
-    // { valueProducts, isListEnd }
+const ProductList = ({ query }
 ) => {
 
-    const [page, setPage] = useState(1);
+
     const dispatch = useDispatch();
     const newModel = useSelector(state => state.producReducer);
 
-    const requestAPI = () => {
-        params = { page: page }
-        dispatch(productAction(params));
-    }
 
     useEffect(() => {
+        const requestAPI = async () => {
+            dispatch(productsAction(query));
+        }
         requestAPI();
-        console.log("Current page", page)
-    }, [page])
-
+    }, [query])
 
 
     const renderFooter = () => {
         return (
             // Footer View with Loader
-            <View style={{
-                padding: 10,
-                justifyContent: 'center',
-                alignItems: 'center',
-                flexDirection: 'row'
-            }}>
-                {newModel.moreLoading && <ActivityIndicator size={'large'} color="grey" style={{ margin: 15 }} />}
-                {newModel.isListEnd && <Text>No more item</Text>}
-                {/* {!isListEnd ? (
-                    <ActivityIndicator
-                        size={'large'}
-                        color="grey"
-                        style={{ margin: 15 }} />
-                ) : null} */}
+            <View style={styles.viewFooter}>
+                {newModel.moreLoading === true && newModel.isListEnd === false ?
+                    (<ActivityIndicator size={'large'} color="grey" style={{ margin: 15 }} />)
+                    : (null)}
+                {newModel.moreLoading === false && newModel.isListEnd === true ?
+                    (<Text>No more item more</Text>)
+                    : (null)}
+
             </View>
         );
     };
 
-    const fetchMoreData = () => {
-        if (!newModel.isListEnd && newModel.moreLoading) {
-            setPage((page) => page + 1);
-        }
+    const fetchMoreData = async () => {
+        dispatch(productMoreActions(query));
     }
 
     const ItemSeparatorView = () => {
@@ -65,10 +51,13 @@ const ProductList = (
     const renderEmpty = () => {
         return (
             <View>
-                <Text>No Data at  the moment</Text>
-                <TouchableOpacity onPress={requestAPI}>
-                    <Text>Refresh</Text>
-                </TouchableOpacity>
+                {
+                    newModel.isListEnd && newModel.data === [] ? (
+                        <Text style={styles.txtEmptyList}>
+                            No Data at  the moment or check Internt
+                        </Text>) : (null)
+                }
+
             </View>
         )
 
@@ -76,6 +65,7 @@ const ProductList = (
 
     return (
         <View style={{ flex: 1 }}>
+
             {
                 newModel.loading ?
                     (<View>
@@ -88,14 +78,12 @@ const ProductList = (
                         keyExtractor={(product) => product.id}
                         ItemSeparatorComponent={ItemSeparatorView}
                         renderItem={({ item }) => (
-                            <Text>1</Text>
-                            // <Product valueProduct={item} />
-                        )
-                        }
-                        ListFooterComponent={renderFooter}
-                        ListEmptyComponent={renderEmpty}
+                            <Product valueProduct={item} />
+                        )}
                         onEndReachedThreshold={0.2}
                         onEndReached={fetchMoreData}
+                        ListFooterComponent={renderFooter}
+                        ListEmptyComponent={renderEmpty}
                     />)
             }
 
@@ -104,3 +92,4 @@ const ProductList = (
 }
 
 export default ProductList;
+
