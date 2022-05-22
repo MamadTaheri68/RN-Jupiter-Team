@@ -3,12 +3,12 @@ import axios from 'axios';
 import { BaseUrl } from '.';
 
 
-const SearchProductsByTitleService = async (queryString) => {
+const PageingProductsByTitleService = async (queryString,link) => {
   try {
     let response;
     let falg=false;
     do {
-      response = await axios.get(`${BaseUrl}/search/v2?q=${queryString}`, {
+      response = await axios.get(`${BaseUrl}/search/v2?q=${queryString}&l=${link}`, {
         headers: {
           'Content-Type': 'application/json',
         },
@@ -27,11 +27,11 @@ const SearchProductsByTitleService = async (queryString) => {
      
     } while (response.status !== 200);
 
-    return {products:response.data.products,pages:response.data.pages};
+    return response.data.products
   } catch (e) {
     return 'error on Fetching data';
   }
 }
 
 
-export default SearchProductsByTitleService;
+export default PageingProductsByTitleService;
